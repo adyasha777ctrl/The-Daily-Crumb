@@ -1,0 +1,334 @@
+📁 File Structure
+
+src/
+├── pages/
+│   └── Home.jsx
+├── components/
+│   └── bakery/
+│       ├── Navbar.jsx
+│       ├── HeroSection.jsx
+│       ├── ProductsSection.jsx
+│       ├── ProductCard.jsx
+│       ├── MenuSection.jsx
+│       ├── CakeBuilder.jsx
+│       ├── StorySection.jsx
+│       ├── LocationSection.jsx
+│       └── Footer.jsx
+├── App.jsx
+├── index.css
+└── index.html
+
+
+───
+
+pages/Home.jsx
+jsx
+import React from "react";
+import Navbar from "@/components/bakery/Navbar";
+import HeroSection from "@/components/bakery/HeroSection";
+import ProductsSection from "@/components/bakery/ProductsSection";
+import CakeBuilder from "@/components/bakery/CakeBuilder";
+import StorySection from "@/components/bakery/StorySection";
+import LocationSection from "@/components/bakery/LocationSection";
+import MenuSection from "@/components/bakery/MenuSection";
+import Footer from "@/components/bakery/Footer";
+
+const IMAGES = {
+  hero: "https://media.base44.com/images/public/.../hero.png",
+  sourdough: "...",
+  weddingCake: "...",
+  birthdayCake: "...",
+  interior: "...",
+  coffee: "...",
+  // ... (AI-generated images hosted on Base44 CDN)
+};
+
+const menuSections = [
+  {
+    title: "Cakes",
+    note: "Half Kg rates",
+    items: [
+      { name: "Chocolate Truffle", price: "₹550" },
+      { name: "Chocolate Dutch", price: "₹500" },
+      { name: "Roasted Almond", price: "₹550" },
+      { name: "Pineapple Cake", price: "₹480" },
+      { name: "Butter Scotch Cake", price: "₹500" },
+      { name: "Rasmalai Cake", price: "₹600" },
+    ],
+  },
+  {
+    title: "Cupcakes",
+    note: "Rate per piece",
+    items: [
+      { name: "Chocolate Cupcake", price: "₹50" },
+      { name: "Lava Cupcake", price: "₹60" },
+      { name: "Chocolate Truffle", price: "₹60" },
+      { name: "Choco Chip Cupcake", price: "₹55" },
+      { name: "Pineapple Cupcake", price: "₹50" },
+      { name: "Butter Scotch Cupcake", price: "₹50" },
+    ],
+  },
+  {
+    title: "Brownie",
+    note: "4 Pieces (250–300 gms)",
+    items: [
+      { name: "Classic", price: "₹200" },
+      { name: "Choco Chip", price: "₹220" },
+      { name: "Oreo", price: "₹240" },
+      { name: "Chocolate Ganache", price: "₹280" },
+      { name: "Walnut", price: "₹260" },
+      { name: "Nutella", price: "₹310" },
+      { name: "Peanut Butter", price: "₹250" },
+      { name: "Chocolate Truffle", price: "₹300" },
+      { name: "Ferrero Rocher", price: "₹300" },
+    ],
+  },
+  {
+    title: "Chocolate's",
+    note: "100–150 gms",
+    items: [
+      { name: "Dark Chocolate", price: "₹150" },
+      { name: "Milk Chocolate", price: "₹180" },
+      { name: "White Chocolate", price: "₹200" },
+      { name: "Chocolate Truffle", price: "₹200" },
+      { name: "Chocolate Almond", price: "₹210" },
+      { name: "Crispy Chocolate", price: "₹160" },
+    ],
+  },
+  {
+    title: "Additional",
+    note: "",
+    items: [
+      { name: "Dark Chocolate Balls (piece)", price: "₹35" },
+      { name: "Milk Chocolate Balls (piece)", price: "₹30" },
+      { name: "Hot Chocolate", price: "₹55" },
+      { name: "Chocolate Mousse Jar", price: "₹160" },
+      { name: "Lunchbox Cheese Cake", price: "₹420" },
+      { name: "Bento Cakes", price: "₹300" },
+      { name: "Pull Me Up Cakes", price: "₹450" },
+    ],
+  },
+];
+
+const products = [
+  { name: "Chocolate Truffle Cake", category: "Cakes · Half Kg", price: "₹550", description: "...", image: IMAGES.birthdayCake, crumbProfile: null },
+  { name: "Rasmalai Cake", category: "Cakes · Half Kg", price: "₹600", description: "...", image: IMAGES.weddingCake, crumbProfile: null },
+  { name: "Lava Cupcake", category: "Cupcakes · Per Piece", price: "₹60", description: "...", image: IMAGES.painAuChocolat, crumbProfile: null },
+  { name: "Ferrero Rocher Brownie", category: "Brownie · 4 pcs", price: "₹300", description: "...", image: IMAGES.sourdough, crumbProfile: null },
+  { name: "Chocolate Mousse Jar", category: "Additional", price: "₹160", description: "...", image: IMAGES.coffee, crumbProfile: null },
+];
+
+export default function Home() {
+  return (
+    <div className="bg-[#F9F7F2] min-h-screen">
+      <Navbar />
+      <main>
+        <HeroSection heroImage={IMAGES.hero} />
+        <ProductsSection products={products} />
+        <MenuSection menuSections={menuSections} />
+        <CakeBuilder weddingCakeImage={IMAGES.weddingCake} birthdayCakeImage={IMAGES.birthdayCake} />
+        <StorySection interiorImage={IMAGES.interior} />
+        <LocationSection coffeeImage={IMAGES.coffee} />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+
+───
+
+components/bakery/Navbar.jsx
+jsx
+import React, { useState, useEffect } from "react";
+import { Menu, X, Phone } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const navLinks = [
+  { label: "Our Bakes", href: "#products" },
+  { label: "Menu", href: "#menu" },
+  { label: "Custom Cakes", href: "#cakes" },
+  { label: "Our Story", href: "#story" },
+  { label: "Find Us", href: "#location" },
+];
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 $`{scrolled ? "bg-[#F9F7F2]/95 backdrop-blur-md shadow-sm" : "bg-transparent"}`}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-16 lg:h-20">
+        <a href="#" className="font-heading text-xl lg:text-2xl font-semibold text-[#2C2420]">The Daily Crumb</a>
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a key={link.href} href={link.href} className="relative font-body text-sm font-medium text-[#2C2420]/80 hover:text-[#2C2420] group">
+              {link.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#9C6644] transition-all duration-300 group-hover:w-full" />
+            </a>
+          ))}
+        </div>
+        <div className="hidden md:flex items-center gap-4">
+          <a href="tel:+917303028620" className="flex items-center gap-2 text-sm font-medium text-[#9C6644]">
+            <Phone className="w-4 h-4" /> +91 73030 28620
+          </a>
+          <a href="#cakes" className="px-5 py-2.5 bg-[#2C2420] text-[#F9F7F2] text-sm font-medium rounded-sm hover:bg-[#9C6644] transition-colors">Order a Cake</a>
+        </div>
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 text-[#2C2420]">
+          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-[#F9F7F2] border-t border-[#EAE0D5] overflow-hidden">
+            <div className="px-6 py-6 space-y-4">
+              {navLinks.map((link) => (
+                <a key={link.href} href={link.href} onClick={() => setMobileOpen(false)} className="block text-lg font-body font-medium text-[#2C2420]">{link.label}</a>
+              ))}
+              <a href="tel:+917303028620" className="flex items-center gap-2 text-[#9C6644] font-medium"><Phone className="w-4 h-4" />+91 73030 28620</a>
+              <a href="#cakes" onClick={() => setMobileOpen(false)} className="block text-center px-5 py-3 bg-[#2C2420] text-[#F9F7F2] font-medium rounded-sm">Order a Cake</a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+}
+
+
+───
+
+components/bakery/HeroSection.jsx
+jsx
+import React from "react";
+import { motion } from "framer-motion";
+import { Clock, MapPin } from "lucide-react";
+
+const bakeStatus = [
+  { item: "Sourdough", status: "Freshly Out" },
+  { item: "Croissants", status: "12 Remaining" },
+  { item: "Baguettes", status: "Baking Now" },
+  { item: "Pain au Chocolat", status: "8 Remaining" },
+];
+
+export default function HeroSection({ heroImage }) {
+  return (
+    <section className="relative min-h-screen flex items-end overflow-hidden grain-overlay">
+      <div className="absolute inset-0">
+        <img src={heroImage} alt="Artisan bakery hero" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2C2420] via-[#2C2420]/40 to-transparent" />
+      </div>
+      <div className="absolute top-20 lg:top-24 right-4 lg:right-10 z-10">
+        <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1, duration: 0.8 }}
+          className="bg-[#F9F7F2]/90 backdrop-blur-sm p-4 rounded-sm shadow-lg max-w-[220px]">
+          <div className="flex items-center gap-2 mb-3">
+            <Clock className="w-3.5 h-3.5 text-[#9C6644]" />
+            <span className="text-xs font-body font-semibold text-[#9C6644] uppercase tracking-widest">Today's Bake</span>
+          </div>
+          <div className="space-y-2">
+            {bakeStatus.map((bake) => (
+              <div key={bake.item} className="flex justify-between items-center">
+                <span className="text-xs font-body font-medium text-[#2C2420]">{bake.item}</span>
+                <span className="text-[10px] font-body text-[#9C6644] font-medium">{bake.status}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+      <div className="relative z-10 w-full px-6 lg:px-10 pb-16 lg:pb-24 max-w-7xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+          <p className="text-[#EAE0D5]/80 font-body text-sm uppercase tracking-[0.3em] mb-4">Artisan Bakery · Est. 2018</p>
+          <h1 className="font-heading text-5xl sm:text-6xl lg:text-8xl xl:text-9xl font-light text-[#F9F7F2] leading-[0.9] mb-6">
+            Baked with<br /><span className="italic font-normal">intention.</span>
+          </h1>
+          <p className="font-body text-[#EAE0D5]/70 text-base lg:text-lg max-w-md mb-8 leading-relaxed">
+            Freshly baked bread, handcrafted pastries, and custom celebration cakes — made from locally sourced ingredients every morning in Selaqui, Dehradun.
+          </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <a href="#products" className="px-8 py-3.5 bg-[#9C6644] text-[#F9F7F2] font-body text-sm font-semibold tracking-wide hover:bg-[#F9F7F2] hover:text-[#2C2420] transition-colors">Explore Our Bakes</a>
+            <a href="#location" className="flex items-center gap-2 text-[#EAE0D5]/80 font-body text-sm hover:text-[#F9F7F2] transition-colors">
+              <MapPin className="w-4 h-4" /> Get Directions
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+
+───
+
+components/bakery/MenuSection.jsx
+jsx
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+
+const TAB_COLORS = {
+  "Cakes": "bg-[#9C6644]",
+  "Cupcakes": "bg-[#b37a54]",
+  "Brownie": "bg-[#7a4f35]",
+  "Chocolate's": "bg-[#5c3a25]",
+  "Additional": "bg-[#2C2420]",
+};
+
+export default function MenuSection({ menuSections }) {
+  const [active, setActive] = useState(menuSections[0].title);
+  const current = menuSections.find((s) => s.title === active);
+
+  return (
+    <section id="menu" className="py-24 lg:py-32 bg-[#F9F7F2]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12">
+          <p className="font-body text-xs uppercase tracking-[0.3em] text-[#9C6644] mb-3">Daily Menu</p>
+          <h2 className="font-heading text-4xl lg:text-6xl font-light text-[#2C2420] leading-tight">
+            Today's<br /><span className="italic">Offerings</span>
+          </h2>
+          <p className="font-body text-sm text-[#2C2420]/50 mt-4">All orders must be placed a day prior for timely preparation.</p>
+        </motion.div>
+
+        <div className="flex flex-wrap gap-2 mb-10">
+          {menuSections.map((section) => (
+            <button key={section.title} onClick={() => setActive(section.title)}
+              className={`px-5 py-2.5 text-sm font-body font-medium transition-all duration-300 `${active === section.title ? `${TAB_COLORS[section.title] || "bg-[#2C2420]"} text-[#F9F7F2]` : "border border-[#2C2420]/20 text-[#2C2420]/60 hover:border-[#9C6644] hover:text-[#9C6644]"}`}>
+              {section.title}
+            </button>
+          ))}
+        </div>
+
+        <motion.div key={active} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="bg-[#EAE0D5]/40 p-8 lg:p-10">
+          <div className="flex items-baseline gap-3 mb-6">
+            <h3 className="font-heading text-2xl lg:text-3xl text-[#2C2420] font-medium">{current.title}</h3>
+            {current.note && <span className="font-body text-xs text-[#9C6644] uppercase tracking-widest">{current.note}</span>}
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-0">
+            {current.items.map((item, i) => (
+              <motion.div key={item.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}
+                className="flex items-center justify-between py-3.5 border-b border-[#2C2420]/10">
+                <span className="font-body text-sm text-[#2C2420]">{item.name}</span>
+                <span className="font-heading text-base text-[#9C6644] font-medium ml-4 flex-shrink-0">{item.price}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        <div className="mt-8 flex flex-col sm:flex-row items-center gap-4">
+          <a href="tel:+917303028620" className="px-8 py-3.5 bg-[#2C2420] text-[#F9F7F2] font-body text-sm font-semibold tracking-wide hover:bg-[#9C6644] transition-colors">
+            Call to Order: +91 73030 28620
+          </a>
+          <p className="font-body text-xs text-[#2C2420]/40">Customization available · I'm just a text away!</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+───
